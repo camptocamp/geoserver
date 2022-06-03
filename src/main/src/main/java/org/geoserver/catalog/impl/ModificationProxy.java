@@ -567,7 +567,7 @@ public class ModificationProxy implements WrappingProxy, Serializable {
 
     private CatalogInfo replaceCatalogInfo(CatalogInfo ci) {
         String id = ci.getId();
-        Catalog catalog = (Catalog) GeoServerExtensions.bean("catalog");
+        Catalog catalog = (Catalog) GeoServerExtensions.bean("rawCatalog");
         FilterFactory ff = CommonFactoryFinder.getFilterFactory();
         Class<? extends CatalogInfo> iface = getCatalogInfoInterface(ci.getClass());
         CatalogInfo replacement =
