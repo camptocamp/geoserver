@@ -271,6 +271,29 @@ public class CoverageStoreControllerTest extends CatalogRESTTestSupport {
         assertEquals(before, after);
     }
 
+    // GEOS-10561: the catalog moves the coverages along with the store, the controller does not
+    @Test
+    public void testPutWorkspaceMovesCoverages() throws Exception {
+        String coverageName = MockData.TASMANIA_BM.getLocalPart();
+        assertNotNull(catalog.getCoverageByName("wcs", coverageName));
+
+        String xml =
+                """
+                <coverageStore>
+                  <workspace>gs</workspace>
+                </coverageStore>
+                """;
+        MockHttpServletResponse response = putAsServletResponse(
+                RestBaseController.ROOT_PATH + "/workspaces/wcs/coveragestores/BlueMarble", xml, "text/xml");
+        assertEquals(200, response.getStatus());
+
+        assertNotNull(catalog.getCoverageStoreByName("gs", "BlueMarble"));
+        assertNotNull(catalog.getCoverageByName("gs", coverageName));
+        assertNull(catalog.getCoverageByName("wcs", coverageName));
+        assertNotNull(catalog.getLayerByName("gs:" + coverageName));
+        removeStore("gs", "BlueMarble");
+    }
+
     @Test
     public void testGetAsJSON() throws Exception {
         JSON json = getAsJSON(RestBaseController.ROOT_PATH + "/workspaces/wcs/coveragestores/BlueMarble.json");
