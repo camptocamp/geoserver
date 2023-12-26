@@ -72,7 +72,7 @@
     </notifiers>
   </ciManagement>
 
-  <distributionManagement>
+  <!--distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>nexus</id>
@@ -85,7 +85,7 @@
       <name>OSGeo Snapshot Repository</name>
       <url>https://repo.osgeo.org/repository/geoserver-snapshots/</url>
     </snapshotRepository>
-  </distributionManagement>
+  </distributionManagement-->
 
   <properties>
     <gs.version>2.24.1-CLOUD</gs.version>
