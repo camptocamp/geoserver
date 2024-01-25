@@ -20,7 +20,6 @@ import org.geoserver.web.util.MapModel;
 import org.geoserver.web.wicket.CRSPanel;
 import org.geoserver.web.wicket.SRSToCRSModel;
 import org.geotools.api.referencing.FactoryException;
-import org.geotools.api.referencing.NoSuchAuthorityCodeException;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.gce.imagemosaic.ImageMosaicReader;
 import org.geotools.referencing.CRS;
@@ -29,6 +28,7 @@ import org.geotools.referencing.CRS;
  * a Panel with PGRaster automatic configuration options TODO: 1) Add numeric validator for PORT 2)
  * change text description on the GUI (right now there is the name of the params)
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class PGRasterPanel extends Panel {
 
     private static final long serialVersionUID = -8845475833628642890L;
@@ -69,8 +69,6 @@ public class PGRasterPanel extends Panel {
     static {
         try {
             DEFAULT_CRS = CRS.decode("EPSG:4326");
-        } catch (NoSuchAuthorityCodeException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
         } catch (FactoryException e) {
             LOGGER.log(Level.FINER, e.getMessage(), e);
         }
