@@ -107,11 +107,11 @@
     <jaiext.version>1.1.24</jaiext.version>
     <java.awt.headless>true</java.awt.headless>
     <sun.java2d.d3d>true</sun.java2d.d3d>
-    <jvm.opts></jvm.opts>
+    <jvm.opts/>
     <jalopy.phase>disabled</jalopy.phase>
     <jalopy.srcExcludesPattern>disabled</jalopy.srcExcludesPattern>
     <test.maxHeapSize>512M</test.maxHeapSize>
-    <test.excludedGroups></test.excludedGroups>
+    <test.excludedGroups/>
     <test.exclude.pattern>none</test.exclude.pattern>
     <quietTests>true</quietTests>
     <remoteOwsTests>false</remoteOwsTests>
@@ -124,7 +124,7 @@
     <interactive.image>false</interactive.image>
     <windows.leniency>true</windows.leniency>
     <gf.version>3.7-RC</gf.version>
-    <mf.version>2.3-RC</mf.version>
+    <mf.version>3.0</mf.version>
     <jasypt.version>1.9.2</jasypt.version>
     <hibernate-version>3.6.9.Final</hibernate-version>
     <hibernate-generic-dao-version>1.1.0</hibernate-generic-dao-version>
@@ -155,7 +155,7 @@
     <spotless.apply.skip>false</spotless.apply.skip>
     <pom.fmt.action>sort</pom.fmt.action>
     <pom.fmt.skip>${spotless.apply.skip}</pom.fmt.skip>
-    <errorProneFlags></errorProneFlags>
+    <errorProneFlags/>
     <errorProne.version>2.18.0</errorProne.version>
     <javac.version>9+181-r4173-1</javac.version>
     <pmd.version>6.42.0</pmd.version>
@@ -2320,22 +2320,22 @@
                 <configuration>
                   <target>
                     <loadproperties prefix="gt">
-                      <zipentry name="META-INF/MANIFEST.MF" zipfile="target/dependency/gt-main-${gt.version}.jar"></zipentry>
+                      <zipentry name="META-INF/MANIFEST.MF" zipfile="target/dependency/gt-main-${gt.version}.jar"/>
                     </loadproperties>
                     <loadproperties prefix="gwc">
-                      <zipentry name="META-INF/MANIFEST.MF" zipfile="target/dependency/gwc-core-${gwc.version}.jar"></zipentry>
+                      <zipentry name="META-INF/MANIFEST.MF" zipfile="target/dependency/gwc-core-${gwc.version}.jar"/>
                     </loadproperties>
                     <copy file="release/VERSION.txt" filtering="true" todir="target">
                       <filterset begintoken="$${" endtoken="}">
-                        <filter token="project.version" value="${project.version}"></filter>
-                        <filter token="build.revision" value="${build.commit.id}"></filter>
-                        <filter token="build.branch" value="${build.branch}"></filter>
-                        <filter token="build.timestamp" value="${build.timestamp}"></filter>
-                        <filter token="gt.version" value="${gt.version}"></filter>
-                        <filter token="gt.revision" value="${gt.Git-Revision}"></filter>
-                        <filter token="gwc.version" value="${gwc.version}"></filter>
-                        <filter token="gwc.revision" value="${gwc.Implementation-Version}"></filter>
-                        <filter token="build.hudsonId" value="${build.hudsonId}"></filter>
+                        <filter token="project.version" value="${project.version}"/>
+                        <filter token="build.revision" value="${build.commit.id}"/>
+                        <filter token="build.branch" value="${build.branch}"/>
+                        <filter token="build.timestamp" value="${build.timestamp}"/>
+                        <filter token="gt.version" value="${gt.version}"/>
+                        <filter token="gt.revision" value="${gt.Git-Revision}"/>
+                        <filter token="gwc.version" value="${gwc.version}"/>
+                        <filter token="gwc.revision" value="${gwc.Implementation-Version}"/>
+                        <filter token="build.hudsonId" value="${build.hudsonId}"/>
                       </filterset>
                     </copy>
                   </target>
