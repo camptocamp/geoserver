@@ -9,8 +9,9 @@
 package org.geoserver.platform.resource;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import org.geoserver.platform.GeoServerResourceLoader;
@@ -42,7 +43,7 @@ public class FileLockProvider implements LockProvider, ServletContextAware, Disp
         // the same JVM)
         LockProvider memory = new MemoryLockProvider();
         // then synch up between different processes
-        this.fileLockProvider = new NioFileLockProvider(this::getLocksFile);
+        this.fileLockProvider = new NioFileLockProvider(getLocksFile());
         this.delegate = new DoubleLockProvider(memory, fileLockProvider);
     }
 
@@ -73,18 +74,34 @@ public class FileLockProvider implements LockProvider, ServletContextAware, Disp
     private File getLocksFile() {
         Objects.requireNonNull(this.root, "Root directory not set");
         File locksDir = new File(this.root, "filelocks");
-        if (!locksDir.isDirectory()) {
-            boolean created = locksDir.mkdirs();
-            if (created && LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Created locks directory " + locksDir);
-            }
-            // check again in case it was created by another process/thread
-            if (!locksDir.isDirectory()) {
-                throw new IllegalStateException(
-                        "Locks file is not a directory or can't be created: " + locksDir);
-            }
+        if (locksDir.isFile()) {
+            throw new IllegalStateException(
+                    "locks directory %s exists but it's a file"
+                            .formatted(locksDir.getAbsolutePath()));
         }
-        return new File(locksDir, "resourcestore.locks");
+        if (locksDir.mkdirs()) {
+            LOGGER.fine(() -> "Created locks directory " + locksDir);
+        } else if (!locksDir.isDirectory()) {
+            throw new IllegalStateException(
+                    "%s is not a directory or can't be created"
+                            .formatted(locksDir.getAbsolutePath()));
+        }
+
+        File file = new File(locksDir, "resourcestore.locks");
+        try {
+            if (file.createNewFile()) {
+                LOGGER.fine(() -> "Created locks file %s".formatted(file.getAbsolutePath()));
+            } else if (!file.isFile()) {
+                throw new IllegalStateException(
+                        "%s is not a file or can't be created"
+                                .formatted(locksDir.getAbsolutePath()));
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(
+                    "Error creating locks file " + file.getAbsolutePath(), e);
+        }
+
+        return file;
     }
 
     @Override

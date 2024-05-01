@@ -16,7 +16,7 @@ import org.geoserver.platform.resource.Resource.Lock;
 public class LockAdapter implements Lock {
 
     private static final Logger LOGGER =
-            org.geotools.util.logging.Logging.getLogger("org.geoserver.jdbcstore.locks");
+            org.geotools.util.logging.Logging.getLogger(LockAdapter.class);
 
     private String key;
     private java.util.concurrent.locks.Lock lock;

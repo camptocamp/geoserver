@@ -43,60 +43,68 @@ class NioFileLock implements Resource.Lock {
     public NioFileLock lock() {
         if (lockCount > 0) {
             ++lockCount;
-            return this;
-        }
-        this.bucket = getBucket(lockKey);
-        final File file = provider.getFile();
-        finer("Mapped lock key %s to bucket %,d on locks file %s", lockKey, bucket, file);
+        } else {
+            this.bucket = getBucket(lockKey);
+            final File file = provider.getFile();
+            finest("Mapped lock key %s to bucket %,d on locks file %s", lockKey, bucket, file);
 
-        final int maxLockAttempts = provider.getMaxLockAttempts();
-        final int waitBeforeRetry = provider.getWaitBeforeRetry();
+            final int maxLockAttempts = provider.getMaxLockAttempts();
+            final int waitBeforeRetry = provider.getWaitBeforeRetry();
 
-        for (int count = 0; count < maxLockAttempts; count++) {
-            Optional<FileLock> lock = acquire(bucket, lockKey);
-            if (lock.isPresent()) {
-                fine("Acquired lock on %s, bucket %d", lockKey, bucket);
-                this.fileLock = lock.get();
-                this.lockCount = 1;
-                return this;
+            for (int count = 0; count < maxLockAttempts; count++) {
+                Optional<FileLock> lock = acquire(bucket, lockKey);
+                if (lock.isPresent()) {
+                    this.fileLock = lock.get();
+                    this.lockCount = 1;
+                    break;
+                }
+                finest(
+                        "Unable to lock on %s (bucket %,d), retrying in %dms (attempt %d/%d)...",
+                        lockKey, bucket, waitBeforeRetry, count + 1, maxLockAttempts);
+                sleep(waitBeforeRetry);
             }
-            finest(
-                    "Unable to lock on %s (bucket %,d), retrying in %dms (attempt %d/%d)...",
-                    lockKey, bucket, waitBeforeRetry, count + 1, maxLockAttempts);
-            sleep(waitBeforeRetry);
+            if (lockCount == 0) {
+                throw new IllegalStateException(
+                        String.format(
+                                "Failed to get a lock on key %s after %d attempts",
+                                lockKey, maxLockAttempts));
+            }
         }
-
-        throw new IllegalStateException(
-                String.format(
-                        "Failed to get a lock on key %s after %d attempts",
-                        lockKey, maxLockAttempts));
+        finer(
+                "Acquired lock on %s, bucket %d, lock counter: %d",
+                lockKey, this.bucket, this.lockCount);
+        return this;
     }
 
     @Override
     public void release() {
-        if (--lockCount == 0) {
+        finer("Releasing lock on %s, lock counter: %d", lockKey, lockCount);
+        --lockCount;
+        if (lockCount == 0) {
             FileLock lock = this.fileLock;
             this.fileLock = null;
             if (lock != null && lock.isValid()) {
                 final String lockKey = this.lockKey;
                 final long bucket = this.bucket;
                 try {
-                    finer("Releasing lock on %s", lockKey);
                     lock.release();
                     String heldKey = provider.bucketsHeldForKey.remove(bucket);
                     provider.threadIdHoldingKey.remove(lockKey);
                     if (null != heldKey && !lockKey.equals(heldKey)) {
                         warning(
-                                "Released lock on %s for bucket %d but it was registered for key %s",
-                                lockKey, bucket, heldKey);
+                                "Released lock on %s for bucket %d but it was registered for key %s, lock counter: %d",
+                                lockKey, bucket, heldKey, lockCount);
+                    } else {
+                        finest("Released lock on %s, lock counter: %d", lockKey, lockCount);
                     }
-                    finest("Released lock on %s", lockKey);
                 } catch (IOException e) {
-                    fine("Error released lock on %s: %s", lockKey, e.getMessage());
+                    finer("Error releasing lock on %s: %s", lockKey, e.getMessage());
                     throw new IllegalStateException(
                             "Failure while trying to release lock for key " + lockKey, e);
                 }
             }
+        } else {
+            finer("Released lock reentrancy on %s, lock counter: %d", lockKey, lockCount);
         }
     }
 
@@ -119,7 +127,7 @@ class NioFileLock implements Resource.Lock {
                 severe(msg);
                 throw new IllegalStateException(msg);
             } else {
-                fine("FileLock is held by another thread");
+                finer("FileLock is held by another thread");
             }
         } catch (ClosedChannelException e) {
             throw new IllegalStateException("Locks file channel was closed unexpectedly", e);
@@ -146,10 +154,6 @@ class NioFileLock implements Resource.Lock {
         log(Level.WARNING, msg, msgArgs);
     }
 
-    private static void fine(String msg, Object... msgArgs) {
-        log(Level.FINE, msg, msgArgs);
-    }
-
     private static void finer(String msg, Object... msgArgs) {
         log(Level.FINER, msg, msgArgs);
     }
@@ -160,7 +164,13 @@ class NioFileLock implements Resource.Lock {
 
     private static void log(Level level, String msg, Object... msgArgs) {
         if (LOGGER.isLoggable(level)) {
-            LOGGER.log(level, String.format(msg, msgArgs));
+            String message = String.format(msg, msgArgs);
+            if ("true".equals(System.getProperty("locks.log-stack-trace"))) {
+                Throwable trace = new Exception("debugging aid stack trace").fillInStackTrace();
+                LOGGER.log(level, message, trace);
+            } else {
+                LOGGER.log(level, message);
+            }
         }
     }
 
