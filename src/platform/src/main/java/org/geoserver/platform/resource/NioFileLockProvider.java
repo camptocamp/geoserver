@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 import org.geoserver.util.IOUtils;
 import org.geotools.util.logging.Logging;
@@ -46,15 +45,19 @@ class NioFileLockProvider implements LockProvider, Closeable {
     /** Holds lock counter by lock key to aid in reentrancy */
     Map<String, AtomicInteger> threadIdHoldingKey = new ConcurrentHashMap<>();
 
-    private Supplier<File> locksFile;
+    private File locksFile;
 
     private FileChannel channel;
 
     private static final ThreadLocal<Map<String, NioFileLock>> LOCKS =
             ThreadLocal.withInitial(ConcurrentHashMap::new);
 
-    public NioFileLockProvider(Supplier<File> locksFilesDirectory) {
-        this.locksFile = locksFilesDirectory;
+    public NioFileLockProvider(File locksFile) {
+        if (!locksFile.isFile())
+            throw new IllegalArgumentException(locksFile.getAbsolutePath() + " is not a file");
+        if (!locksFile.canWrite())
+            throw new IllegalArgumentException(locksFile.getAbsolutePath() + " is not writable");
+        this.locksFile = locksFile;
     }
 
     @Override
@@ -120,7 +123,7 @@ class NioFileLockProvider implements LockProvider, Closeable {
     }
 
     File getFile() {
-        final File locksFile = this.locksFile.get();
+        final File locksFile = this.locksFile;
         Objects.requireNonNull(locksFile, "Locks file not provided");
         if (!locksFile.exists()) {
             File parent = locksFile.getParentFile();
