@@ -54,15 +54,15 @@ public class CascadeDeleteVisitor implements CatalogVisitor {
             s.accept(this);
         }
 
+        // remove styles contained in this workspace
+        for (StyleInfo style : catalog.getStylesByWorkspace(workspace)) {
+            style.accept(this);
+        }
+
         // remove any linked namespaces
         NamespaceInfo ns = catalog.getNamespaceByPrefix(workspace.getName());
         if (ns != null) {
             ns.accept(this);
-        }
-
-        // remove styles contained in this workspace
-        for (StyleInfo style : catalog.getStylesByWorkspace(workspace)) {
-            style.accept(this);
         }
 
         catalog.remove(workspace);
