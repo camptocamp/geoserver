@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.geoserver.config.GeoServerDataDirectory;
 import org.geoserver.platform.GeoServerExtensions;
-import org.geoserver.security.PropertyFileWatcher;
+import org.geoserver.util.LinkedProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
@@ -77,7 +77,7 @@ public class WorkspaceAdminRESTAccessRuleDAO extends AbstractAccessRuleDAO<Works
 
     @Override
     protected Properties toProperties() {
-        PropertyFileWatcher.LinkedProperties props = new PropertyFileWatcher.LinkedProperties();
+        LinkedProperties props = new LinkedProperties();
         for (WorkspaceAdminRestAccessRule rule : rules) {
             props.setProperty(rule.getAntPattern(), rule.methods());
         }
@@ -101,9 +101,9 @@ public class WorkspaceAdminRESTAccessRuleDAO extends AbstractAccessRuleDAO<Works
                 .collect(Collectors.toList());
     }
 
-    private PropertyFileWatcher.LinkedProperties load(String resource) {
+    private LinkedProperties load(String resource) {
         try (InputStream in = getClass().getResourceAsStream(resource)) {
-            PropertyFileWatcher.LinkedProperties props = new PropertyFileWatcher.LinkedProperties();
+            LinkedProperties props = new LinkedProperties();
             props.load(in);
             return props;
         } catch (IOException e) {
