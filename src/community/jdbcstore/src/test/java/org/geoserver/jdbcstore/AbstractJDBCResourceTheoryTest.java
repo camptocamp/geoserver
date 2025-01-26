@@ -34,7 +34,7 @@ public abstract class AbstractJDBCResourceTheoryTest extends ResourceTheoryTest 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
-    DatabaseTestSupport support;
+    protected DatabaseTestSupport support;
 
     @DataPoints
     public static String[] testPaths() {
