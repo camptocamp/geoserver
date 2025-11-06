@@ -28,7 +28,7 @@ public class MemoryLockProvider implements LockProvider {
     java.util.concurrent.locks.Lock[] locks;
 
     public MemoryLockProvider() {
-        this(1024);
+        this(1024 * 1024);
     }
 
     public MemoryLockProvider(int concurrency) {
