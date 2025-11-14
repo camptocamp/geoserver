@@ -15,12 +15,11 @@
     <module>accessmanager</module>
     <module>web</module>
     <module>wps</module>
-    <module>config</module>
     <module>plugin</module>
     <module>assembly</module>
   </modules>
   <properties>
-    <geoserver-acl.version>3.0-M0</geoserver-acl.version>
+    <geoserver-acl.version>3.0-SNAPSHOT</geoserver-acl.version>
     <lombok.version>1.18.42</lombok.version>
   </properties>
   <dependencyManagement>
@@ -54,11 +53,6 @@
       <dependency>
         <groupId>org.geoserver.community</groupId>
         <artifactId>gs-acl-plugin-authservice-openapi</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geoserver.community</groupId>
-        <artifactId>gs-acl-plugin-config</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

@@ -1,4 +1,4 @@
-/* (c) 2024  Open Source Geospatial Foundation - all rights reserved
+/* (c) 2024 Open Source Geospatial Foundation - all rights reserved
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
  */
@@ -13,7 +13,15 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-/** @since 2.3 */
+/**
+ * Single Spring configuration entry point for GeoServer.
+ *
+ * <p>This configuration is loaded by component scan defined in {@literal applicationContext.xml}.
+ *
+ * <p>GeoServer Cloud will use Spring Boot's AutoConfiguration mechanism instead, hence
+ * {@link AclAccessManagerConfiguration}, {@link ACLWebUIConfiguration}, {@link AclWpsIntegrationConfiguration}, and
+ * {@link CachingAuthorizationServicePluginConfiguration} are each in their own packages.
+ */
 @Configuration
 @Conditional(AclEnabledCondition.class)
 @Import({
