@@ -4,14 +4,14 @@
  */
 package org.geoserver.acl.plugin.config.domain.client;
 
-import org.geoserver.acl.api.client.AuthorizationApi;
-import org.geoserver.acl.api.client.DataRulesApi;
-import org.geoserver.acl.api.client.WorkspaceAdminRulesApi;
 import org.geoserver.acl.api.client.config.ApiClientConfiguration;
 import org.geoserver.acl.api.client.config.ApiClientProperties;
 import org.geoserver.acl.authorization.AuthorizationService;
 import org.geoserver.acl.config.domain.AdminRuleAdminServiceConfiguration;
 import org.geoserver.acl.config.domain.RuleAdminServiceConfiguration;
+import org.geoserver.acl.webapi.v1.client.AuthorizationApi;
+import org.geoserver.acl.webapi.v1.client.DataRulesApi;
+import org.geoserver.acl.webapi.v1.client.WorkspaceAdminRulesApi;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

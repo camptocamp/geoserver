@@ -15,8 +15,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.geoserver.acl.integration</groupId>
-      <artifactId>gs-acl-cache</artifactId>
+      <groupId>org.geoserver.acl.infrastructure</groupId>
+      <artifactId>gs-acl-spring-cache-adapter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>

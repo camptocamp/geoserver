@@ -11,7 +11,7 @@
   <packaging>pom</packaging>
   <description>GeoServer Acess Control Lists based authorization GeoServer plugin components</description>
   <modules>
-    <module>client</module>
+    <module>authservice-webapi</module>
     <module>accessmanager</module>
     <module>web</module>
     <module>wps</module>
@@ -19,7 +19,7 @@
     <module>assembly</module>
   </modules>
   <properties>
-    <geoserver-acl.version>3.0-SNAPSHOT</geoserver-acl.version>
+    <geoserver-acl.version>3.0-REFACTOR</geoserver-acl.version>
     <lombok.version>1.18.42</lombok.version>
   </properties>
   <dependencyManagement>
@@ -52,7 +52,7 @@
       </dependency>
       <dependency>
         <groupId>org.geoserver.community</groupId>
-        <artifactId>gs-acl-plugin-authservice-openapi</artifactId>
+        <artifactId>gs-acl-plugin-authservice-webapi</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

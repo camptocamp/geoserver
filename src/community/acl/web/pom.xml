@@ -57,26 +57,26 @@
     </dependency>
     <dependency>
       <!-- AuthorizationServiceImpl, only for tests, the compile scope dependency is only on the api module-->
-      <groupId>org.geoserver.acl</groupId>
-      <artifactId>gs-acl-authorization</artifactId>
+      <groupId>org.geoserver.acl.application</groupId>
+      <artifactId>gs-acl-authorization-impl</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.geoserver.acl.integration</groupId>
-      <artifactId>gs-acl-domain-spring-integration</artifactId>
+      <groupId>org.geoserver.acl.infrastructure</groupId>
+      <artifactId>gs-acl-spring-config</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
       <!-- to use MemoryRuleRepository in tests -->
       <groupId>org.geoserver.acl.domain</groupId>
-      <artifactId>gs-acl-accessrules</artifactId>
+      <artifactId>gs-acl-data-rules</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <!-- to use MemoryAdminRuleRepository in tests -->
       <groupId>org.geoserver.acl.domain</groupId>
-      <artifactId>gs-acl-adminrules</artifactId>
+      <artifactId>gs-acl-workspaceadmin-rules</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
