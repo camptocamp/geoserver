@@ -48,7 +48,7 @@ copyright = u'{}, Open Source Geospatial Foundation'.format(now.year)
 # other places throughout the built documents.
 #
 # The replacement |version| provides short X.Y version.
-version = '2.28.0'
+version = '2.28.2.0'
 
 # The relacement |release| provides the full version, including alpha/beta/rc tags.
 
@@ -58,7 +58,7 @@ version = '2.28.0'
 # check environmental variable to see if ant build.xml passed in project.version
 project_version = os.getenv("project.version")
 if project_version == None: 
-  release = '2.28.0-SNAPSHOT'
+  release = '2.28.2.0-SNAPSHOT'
 else:
   release = project_version
 
@@ -70,7 +70,7 @@ branch = 'main'
 if release.find('SNAPSHOT') != -1:
    tags.add('snapshot')
    download = version+'.x'
-   release = '2.28.0.x'
+   release = '2.28.2.0.x'
    latest = '-latest'
    download_release = 'https://build.geoserver.org/geoserver/'+branch+'/geoserver-'+version+'.x-latest-%s.zip'
    download_extension = 'https://build.geoserver.org/geoserver/'+branch+'/ext-latest/geoserver-'+version+'-SNAPSHOT-%s-plugin.zip'
@@ -130,8 +130,8 @@ extlinks = {
     'wiki': ('https://github.com/geoserver/geoserver/wiki/%s', None),
     'website': ('http://geoserver.org/%s', None),
     'user': ('http://docs.geoserver.org/'+branch+'/en/user/%s', None),
-    'developer': ('http://docs.geoserver.org/2.28.0.x/en/developer/%s', None),
-    'docguide': ('http://docs.geoserver.org/2.28.0.x/en/docguide/%s', None),
+    'developer': ('http://docs.geoserver.org/2.28.2.0.x/en/developer/%s', None),
+    'docguide': ('http://docs.geoserver.org/2.28.2.0.x/en/docguide/%s', None),
     'geos': ('https://osgeo-org.atlassian.net/browse/GEOS-%s','GEOS-%s'),
     'geot': ('https://osgeo-org.atlassian.net/browse/GEOT-%s','GEOT-%s'),
     'api': ('http://docs.geoserver.org/latest/en/api/#1.0.0/%s', None),
