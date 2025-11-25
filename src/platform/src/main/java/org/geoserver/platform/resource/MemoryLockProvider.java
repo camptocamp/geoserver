@@ -9,6 +9,7 @@
  */
 package org.geoserver.platform.resource;
 
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ public class MemoryLockProvider implements LockProvider {
     java.util.concurrent.locks.Lock[] locks;
 
     public MemoryLockProvider() {
-        this(1024);
+        this(1024 * 1024);
     }
 
     public MemoryLockProvider(int concurrency) {
@@ -42,28 +43,11 @@ public class MemoryLockProvider implements LockProvider {
         final int idx = getIndex(lockKey);
         if (LOGGER.isLoggable(Level.FINE))
             LOGGER.fine("Mapped lock key " + lockKey + " to index " + idx + ". Acquiring lock.");
-        locks[idx].lock();
+        Lock lock = locks[idx];
+        lock.lock();
         if (LOGGER.isLoggable(Level.FINE))
             LOGGER.fine("Mapped lock key " + lockKey + " to index " + idx + ". Lock acquired");
-        return new Resource.Lock() {
-
-            boolean released = false;
-
-            @Override
-            public void release() {
-                if (!released) {
-                    released = true;
-                    locks[idx].unlock();
-                    if (LOGGER.isLoggable(Level.FINE))
-                        LOGGER.fine("Released lock key " + lockKey + " mapped to index " + idx);
-                }
-            }
-
-            @Override
-            public String toString() {
-                return "MemoryLock " + idx;
-            }
-        };
+        return new LockAdapter(lockKey, lock);
     }
 
     private int getIndex(String lockKey) {
