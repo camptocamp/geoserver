@@ -95,6 +95,14 @@
         <module>oidc</module>
       </modules>
     </profile>
+    <profile>
+      <id>communityReleaseCloud</id>
+      <modules>
+        <module>oauth2</module>
+        <module>oauth2-geonode</module>
+        <module>oauth2-openid-connect</module>
+      </modules>
+    </profile>
 
   </profiles>
 </project>
