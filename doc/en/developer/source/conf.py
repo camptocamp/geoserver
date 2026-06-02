@@ -48,17 +48,17 @@ copyright = u'{}, Open Source Geospatial Foundation'.format(now.year)
 # other places throughout the built documents.
 #
 # The short X.Y version.
-version = '2.28'
+version = '2.28.4'
 
 # The full version, including alpha/beta/rc tags.
-release = '2.28-SNAPSHOT'
+release = '2.28.4-SNAPSHOT'
 
 # Used in build and documentation links
-branch = '2.28.x'
+branch = '2.28.4.x'
 
 # Users don't need to see the "SNAPSHOT" notation when it's there
 if release.find('SNAPSHOT') != -1:
-   release = '2.28.x'
+   release = '2.28.4.x'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -101,8 +101,8 @@ extlinks = {
     'wiki': ('https://github.com/geoserver/geoserver/wiki/%s', None),
     'website': ('http://geoserver.org/%s', None),
     'user': ('http://docs.geoserver.org/'+branch+'/en/user/%s', None),
-    'developer': ('http://docs.geoserver.org/2.28.x/en/developer/%s', None),
-    'docguide': ('http://docs.geoserver.org/2.28.x/en/docguide/%s', None),
+    'developer': ('http://docs.geoserver.org/2.28.4.x/en/developer/%s', None),
+    'docguide': ('http://docs.geoserver.org/2.28.4.x/en/docguide/%s', None),
     'geotools': ('https://docs.geotools.org/stable/userguide/%s', None),
     'geos': ('https://osgeo-org.atlassian.net/browse/GEOS-%s','GEOS-%s'),
     'geot': ('https://osgeo-org.atlassian.net/browse/GEOT-%s','GEOT-%s'),
