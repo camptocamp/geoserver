@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.geoserver</groupId>
     <artifactId>geoserver</artifactId>
-    <version>3.0.0-CLOUD-SNAPSHOT</version>
+    <version>3.0.0-CLOUD</version>
   </parent>
 
   <artifactId>assembly_test</artifactId>
