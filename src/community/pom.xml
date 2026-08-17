@@ -166,7 +166,7 @@
         <module>vector-mosaic</module>
         <module>proxy-base-ext</module>
         <module>wps-longitudinal-profile</module>
-        <module>monitor-kafka</module>
+        <!--module>monitor-kafka</module-->
         <module>monitor-micrometer</module>
         <module>graticule</module>
         <module>wfs-freemarker</module>
