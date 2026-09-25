@@ -28,6 +28,7 @@
     <constructor-arg ref="rawCatalog" />
     <constructor-arg ref="gwcDefaultStorageFinder"/>
     <constructor-arg ref="gwcJdbcConfigurationStorage"/>
+    <constructor-arg ref="gwcBlobStoreAggregator"/>
     <constructor-arg ref="gwcSynchEnv"/>
     <constructor-arg ref="coalescedRequestSplitter"/>
   </bean>
