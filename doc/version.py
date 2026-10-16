@@ -64,21 +64,21 @@ def _guess_version(branch, default='3.1'):
     return default
 
 
-def _guess_release(branch, version, default='3.1.0'):
+def _guess_release(branch, version, default='3.1.0-CLOUD'):
     # Numeric release tag exact (3.1.2)
     if re.match(r'^\d+\.\d+\.\d+$', branch):
         return branch
 
-    # branch major.minor format: 3.1 -> 3.1.0
+    # branch major.minor format: 3.1 -> 3.1.0-CLOUD
     if re.match(r'^\d+\.\d+$', branch):
         return branch + '.0'
 
-    # branch major.minor.x format: 3.1.x -> 3.1.0
+    # branch major.minor.x format: 3.1.x -> 3.1.0-CLOUD
     m = re.match(r'^(\d+\.\d+)\.x$', branch)
     if m:
         return m.group(1) + '.0'
 
-    # snapshot branches: 3.1-SNAPSHOT -> 3.1.0
+    # snapshot branches: 3.1-SNAPSHOT -> 3.1.0-CLOUD
     m = re.match(r'^(\d+\.\d+)-snapshot$', branch, re.IGNORECASE)
     if m:
         return m.group(1) + '.0'
@@ -116,7 +116,7 @@ def define_env(env):
     if is_release and release_branch:
         release = branch
     else:
-        release = _guess_release(branch, version, default='3.1.0')
+        release = _guess_release(branch, version, default='3.1.0-CLOUD')
 
     # nightly artifacts carry the full Maven version (3.1.0-SNAPSHOT), not the 3.1 series
     snapshot = f"{_guess_release(branch, version)}-SNAPSHOT"
