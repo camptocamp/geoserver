@@ -550,6 +550,33 @@ public class DataStoreControllerTest extends CatalogRESTTestSupport {
         removeStore("gs", "sf");
     }
 
+    // GEOS-10561: the catalog moves the feature types along with the store, the controller does not
+    @Test
+    public void testPutWorkspaceMovesFeatureTypes() throws Exception {
+        DataStoreInfo store = catalog.getDataStoreByName("sf", "sf");
+        List<FeatureTypeInfo> featureTypes = catalog.getFeatureTypesByDataStore(store);
+        assertFalse(featureTypes.isEmpty());
+
+        String xml =
+                """
+                <dataStore>
+                  <workspace>gs</workspace>
+                </dataStore>
+                """;
+        assertEquals(
+                200,
+                putAsServletResponse(ROOT_PATH + "/workspaces/sf/datastores/sf", xml, "text/xml")
+                        .getStatus());
+
+        for (FeatureTypeInfo featureType : featureTypes) {
+            String name = featureType.getName();
+            assertNotNull(name, catalog.getFeatureTypeByName("gs", name));
+            assertNull(name, catalog.getFeatureTypeByName("sf", name));
+            assertNotNull(name, catalog.getLayerByName("gs:" + name));
+        }
+        removeStore("gs", "sf");
+    }
+
     @Test
     public void testDataStoreReset() throws Exception {
         // force initialization, grab the store, check it's not wrapped
