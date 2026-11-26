@@ -94,7 +94,7 @@
     <!-- ================================ -->
     <!-- Project version management       -->
     <!-- ================================ -->
-    <revision>3.0.3-SNAPSHOT</revision>
+    <revision>3.0.3-CLOUD-SNAPSHOT</revision>
     <gt.version>35-SNAPSHOT</gt.version>
     <gwc.version>2.0-SNAPSHOT</gwc.version>
     <!-- -8<- [start:bom-versions] -->
